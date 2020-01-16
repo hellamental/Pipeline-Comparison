@@ -58,7 +58,7 @@ print str(len(new_opps)) + " new opps"
 for i in new_opps:
     for j in pipeline_snapshot2:
         if i == j['ID']:
-            print j['ID'] + "-" + j['NAME'] + "-" + j['CREATEDDATE']
+            print j['ID'] + " - " + j['NAME'] + " - " + j['CREATEDDATE']
         else:
             pass
 
@@ -76,12 +76,19 @@ for i in opp_matrix1:
 for i in deleted_opps:
     for j in pipeline_snapshot1:
         if i == j['ID']:
-            print j['ID'] + "-" + j['NAME'] + "-" + j['CREATEDDATE']
+            print j['ID'] + " - " + j['NAME'] + " - " + j['CREATEDDATE']
         else:
             pass
 
 print str(len(deleted_opps)) + " deleted opps"
 
+
+#create matrix to house comparison to push to excel document
+matrixheight = len(deleted_opps) + len(new_opps)+ len(existing_opps)
+print matrixheight
+
+excel_matrix = matrix_creator(matrixheight)
+print excel_matrix
 
 
 #identify projects that have exited the pipeline because they were moved to Closed lost or Closed Won

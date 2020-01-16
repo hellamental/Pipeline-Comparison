@@ -18,5 +18,16 @@ def import_opportunities(csv_filename):
 
 
 
-def matrix_creator():
-    w,h = len(22), len()
+def matrix_creator(matrixheight):
+    w,h = 22, matrixheight;
+    excel_matrix = [[0 for x in range(w)] for y in range(h)]
+
+    xcount = 0
+    ycount = 0
+    Headings = ['ID','Account Name','Opportunity / Project Name','Close Date','Stage','Project Value($)','Probability (%)','Weighted Value ($)','Status'," ",'Account Name','Opportunity / Project Name','Close Date','Stage','Project Value($)','Probability (%)','Weighted Value ($)','Status','Stage Changed To','Project Value Change','Weighted Value Change','Close Date Change']
+    for i in Headings:
+        x=i
+        excel_matrix[ycount][xcount]=x
+        xcount += 1
+
+    return excel_matrix
