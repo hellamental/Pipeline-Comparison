@@ -84,11 +84,110 @@ print str(len(deleted_opps)) + " deleted opps"
 
 
 #create matrix to house comparison to push to excel document
-matrixheight = len(deleted_opps) + len(new_opps)+ len(existing_opps)
+matrixheight = len(deleted_opps) + len(new_opps)+ len(existing_opps) + 1
 print matrixheight
 
 excel_matrix = matrix_creator(matrixheight)
-print excel_matrix
+
+xcount = 0
+ycount = 1
+for i in new_opps:
+    excel_matrix[ycount][xcount]=i
+    excel_matrix[ycount][8]='New Opportunity'
+    ycount += 1
+
+for i in existing_opps:
+    excel_matrix[ycount][xcount]=i
+    excel_matrix[ycount][8]='Existing Opportunity'
+    ycount += 1
+
+for i in deleted_opps:
+    excel_matrix[ycount][xcount]=i
+    excel_matrix[ycount][8]='Removed from Pipeline'
+    ycount += 1
+    
+#declaring variables for excel matrix to make things easier
+
+# 'ID' = 0
+# 'Account Name' = 1
+# 'Opportunity / Project Name' = 2
+# 'Close Date' = 3
+# 'Stage' = 4 
+# 'Project Value($)' = 5
+# 'Probability (%)' = 6
+# 'Weighted Value ($)' = 7
+# 'Status' = 8
+# ' ' = 9
+# 'Account Name 2' = 10
+# 'Opportunity / Project Name 2' = 11
+# 'Close Date 2' = 12
+# 'Stage 2' = 13
+# 'Project Value($) 2' = 14
+# 'Probability (%) 2' = 15
+# 'Weighted Value ($) 2' = 16
+# 'Stage Changed To' = 17
+# 'Project Value Change' = 18
+# 'Weighted Value Change' = 19
+# 'Close Date Change' = 20
+
+# populating excel matrix details for new opps
+for i in excel_matrix:
+
+    for k in pipeline_snapshot1:
+        if i[0] == k['ID']:
+            i[2] = k['NAME']
+            i[3] = k['CLOSEDATE']
+            i[4] = k['STAGENAME']
+            i[5] = float(k['VD_PROJECT_VALUE__C'])
+            i[6] = float(k['PROBABILITY'])
+            i[7] = float(k['WEIGHTED_PROJECT_VALUE__C'])
+
+
+    for j in pipeline_snapshot2:
+        if i[0] == j['ID']:
+            i[11] = j['NAME']
+            i[12] = j['CLOSEDATE']
+            i[13] = j['STAGENAME']
+            i[14] = float(j['VD_PROJECT_VALUE__C'])
+            i[15] = float(j['PROBABILITY'])
+            i[16] = float(j['WEIGHTED_PROJECT_VALUE__C'])
+        else:
+            pass
+
+for i in excel_matrix:
+    if i[8] == 'Status': #i[8] == 'Removed from Pipeline' or
+        pass
+    elif i[8] == 'Removed from Pipeline':
+        i[18] = -i[5]
+        i[14] = ""
+        i[17] = ""
+        i[19] = ""
+        i[20] = ""
+    else:
+        if i[4] != i[13]:
+            i[17] = i[13]
+        else:
+            i[17] = ""
+        if i[5] != i[14]:
+            i[18] = i[14] - i[5]
+        else:
+            i[18] = ""
+        if i[6] != i[15]:
+            i[19] = i[15]
+        else:
+            i[19] = ""
+        if i[7] != i[13]:
+            i[17] = i[13]
+        else:
+            i[17] = ""
+        if i[3] != i[12]:
+            i[20] = "Date Changed"
+        else:
+            i[20] = ""
+
+#print len(excel_matrix)
+#print excel_matrix
+
 
 
 #identify projects that have exited the pipeline because they were moved to Closed lost or Closed Won
@@ -98,15 +197,21 @@ print excel_matrix
 #identify what changes have occurred since last snapshot e.g. stage change, close date change, dollar value change etc. 
 
 #create a new report spreadsheet - titles pipeline comparison report (Date 1 v Date 2)
-"""
+
 path = "C:\Users\Mitchell.Dawson\Desktop"
 os.chdir(path)
 workbook_filename = "Pipeline_Comparison.xlsx"
 workbook = xlsxwriter.Workbook(workbook_filename)
+worksheet = workbook.add_worksheet('Pipeline Comparison')
+
+
+write_to_excel(excel_matrix,0,0,worksheet,workbook)
+
 
 workbook.close()
 
-"""
+
+
 #copy both snapshots into new spreadsheet on individual tabs 
 
 
