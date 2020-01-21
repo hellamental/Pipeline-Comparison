@@ -16,6 +16,16 @@ def import_object(csv_filename):
 
 	return object_matrix	
 
+def import_object2(csv_filename):
+    f = open(csv_filename)
+    csv1 = csv.reader(f)
+
+    object_matrix = []
+    for row in csv1:
+        object_matrix.append(row)
+
+    return object_matrix
+
   
 
 def matrix_creator(matrixheight):

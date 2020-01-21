@@ -20,7 +20,7 @@ print os.getcwd()
 pipeline_snapshot1 = import_object(oppextract1)
 pipeline_snapshot2 = import_object(oppextract2)
 account_matrix = import_object(accextract)
-lead_matrix = import_object(leadextract)
+
 
 print len(pipeline_snapshot1)
 print len(pipeline_snapshot2)
@@ -247,11 +247,24 @@ path = "C:\Users\Mitchell.Dawson\Desktop"
 os.chdir(path)
 workbook_filename = "Pipeline_Comparison.xlsx"
 workbook = xlsxwriter.Workbook(workbook_filename)
-worksheet = workbook.add_worksheet('Pipeline Comparison')
+worksheet1 = workbook.add_worksheet('Pipeline Comparison')
 
 
-write_to_excel(excel_matrix,0,0,worksheet,workbook)
+write_to_excel(excel_matrix,0,0,worksheet1,workbook)
 
+
+#Lead Component of Comparison
+
+
+#import leads
+#write leads matrix to new spreadsheet
+#create new spreadsheet
+
+worksheet2 = workbook.add_worksheet('LeadExtract')
+lead_matrix = import_object2(leadextract)
+
+write_to_excel(lead_matrix,0,0,worksheet2,workbook)
+        
 
 workbook.close()
 
