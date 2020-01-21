@@ -139,7 +139,7 @@ for i in excel_matrix:
         if i[0] == k['ID']:
             i[1] = k['ACCOUNTID']
             i[2] = k['NAME']
-            i[3] = parse(k['CLOSEDATE'])
+            i[3] = k['CLOSEDATE']
             i[4] = k['STAGENAME']
             i[5] = float(k['VD_PROJECT_VALUE__C'])
             i[6] = float(k['PROBABILITY'])
@@ -150,7 +150,7 @@ for i in excel_matrix:
         if i[0] == j['ID']:
             i[10] = j['ACCOUNTID']
             i[11] = j['NAME']
-            i[12] = parse(j['CLOSEDATE'])
+            i[12] = j['CLOSEDATE']
             i[13] = j['STAGENAME']
             i[14] = float(j['VD_PROJECT_VALUE__C'])
             i[15] = float(j['PROBABILITY'])
