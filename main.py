@@ -9,7 +9,7 @@ from functions import *
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-script, oppextract1, oppextract2 = argv
+script, oppextract1, oppextract2, accextract, leadextract = argv
 
 path = r"D:\Verdia Pty Ltd\Systems Tools and IT - Salesforce\Data Extracts\Opportunities"
 os.chdir(path)
@@ -17,8 +17,10 @@ print os.getcwd()
 
 
 #import both pipeline snapshots to matrix
-pipeline_snapshot1 = import_opportunities(oppextract1)
-pipeline_snapshot2 = import_opportunities(oppextract2)
+pipeline_snapshot1 = import_object(oppextract1)
+pipeline_snapshot2 = import_object(oppextract2)
+account_matrix = import_object(accextract)
+lead_matrix = import_object(leadextract)
 
 print len(pipeline_snapshot1)
 print len(pipeline_snapshot2)
@@ -135,8 +137,9 @@ for i in excel_matrix:
 
     for k in pipeline_snapshot1:
         if i[0] == k['ID']:
+            i[1] = k['ACCOUNTID']
             i[2] = k['NAME']
-            i[3] = k['CLOSEDATE']
+            i[3] = parse(k['CLOSEDATE'])
             i[4] = k['STAGENAME']
             i[5] = float(k['VD_PROJECT_VALUE__C'])
             i[6] = float(k['PROBABILITY'])
@@ -145,8 +148,9 @@ for i in excel_matrix:
 
     for j in pipeline_snapshot2:
         if i[0] == j['ID']:
+            i[10] = j['ACCOUNTID']
             i[11] = j['NAME']
-            i[12] = j['CLOSEDATE']
+            i[12] = parse(j['CLOSEDATE'])
             i[13] = j['STAGENAME']
             i[14] = float(j['VD_PROJECT_VALUE__C'])
             i[15] = float(j['PROBABILITY'])
@@ -155,33 +159,74 @@ for i in excel_matrix:
             pass
 
 for i in excel_matrix:
+    for j in account_matrix:
+        if i[1] == j['ID']:
+            i[1] = j['NAME']
+            i[10] = j['NAME']
+        else:
+            pass
+
     if i[8] == 'Status': #i[8] == 'Removed from Pipeline' or
         pass
     elif i[8] == 'Removed from Pipeline':
-        i[18] = -i[5]
+        i[9] = ""
         i[14] = ""
+        i[15] = ""
+        i[16] = ""
         i[17] = ""
+        i[18] = -i[5]
         i[19] = ""
         i[20] = ""
+
+    elif i[8] == 'New Opportunity':
+        if i[3] == 0:
+            i[1] = ""
+            i[2] = ""
+            i[3] = ""
+            i[4] = ""
+            i[5] = ""
+            i[6] = ""
+            i[7] = ""
+            i[9] = ""
+            i[18] = i[14]
+            i[17] = ""
+            i[19] = ""
+            i[20] = "" 
+        else:
+            i[5] = ""
+            i[6] = ""
+            i[7] = ""
+            i[9] = ""
+            i[17] = ""
+            i[18] = i[14]
+            i[19] = ""
+            i[20] = ""
+    #existing opportunity
     else:
+        i[9] = ""
+        #Stage Changed To - ok
         if i[4] != i[13]:
             i[17] = i[13]
         else:
             i[17] = ""
+
+        #Project Value Change - ok
         if i[5] != i[14]:
             i[18] = i[14] - i[5]
         else:
             i[18] = ""
+        
+        #Weighted Value Change - ok
         if i[6] != i[15]:
-            i[19] = i[15]
+            i[19] = i[15]-i[6]
         else:
             i[19] = ""
-        if i[7] != i[13]:
-            i[17] = i[13]
-        else:
-            i[17] = ""
+               
+        #Close Date Change - ok
         if i[3] != i[12]:
-            i[20] = "Date Changed"
+            date1 = parse(i[3])
+            date2 = parse(i[12])
+            i[20] = date2 - date1
         else:
             i[20] = ""
 

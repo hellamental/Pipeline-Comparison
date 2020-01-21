@@ -3,20 +3,20 @@ import csv
 
 #import_milestone(csv_file)
 
-def import_opportunities(csv_filename):
+def import_object(csv_filename):
 	f = open(csv_filename)
 	csv_dictf = csv.DictReader(f)
 
-	opportunity_matrix = []
+	object_matrix = []
 
 	for row in csv_dictf:
-		opportunity_matrix.append(row)
+		object_matrix.append(row)
 
 	#del opportunity_matrix[0]
 
-	return opportunity_matrix	
+	return object_matrix	
 
-
+  
 
 def matrix_creator(matrixheight):
     w,h = 21, matrixheight;
