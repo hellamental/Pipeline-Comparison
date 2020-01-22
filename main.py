@@ -162,6 +162,10 @@ for i in excel_matrix:
     for j in account_matrix:
         if i[1] == j['ID']:
             i[1] = j['NAME']
+        else:
+            pass
+        
+        if i[10] == j['ID']:
             i[10] = j['NAME']
         else:
             pass
@@ -233,8 +237,9 @@ for i in excel_matrix:
 #print len(excel_matrix)
 #print excel_matrix
 
-
-
+formula1 = "=SUBTOTAL(9,F3:F" + str(len(excel_matrix)+1) + ")"
+formula2 = "=SUBTOTAL(9,O3:O" + str(len(excel_matrix)+1) + ")"
+formula3 = "=SUBTOTAL(9,S3:S" + str(len(excel_matrix)+1) + ")"
 #identify projects that have exited the pipeline because they were moved to Closed lost or Closed Won
 #identify any Projects thats have been modified between snapshots
 
@@ -249,38 +254,58 @@ workbook_filename = "Pipeline_Comparison.xlsx"
 workbook = xlsxwriter.Workbook(workbook_filename)
 worksheet1 = workbook.add_worksheet('Pipeline Comparison')
 
+#excel formats
+plain_format = workbook.add_format()
+plain_format.set_font_size(9)
+money_format = workbook.add_format({'num_format': '$#,##0'})
+money_format.set_font_size(9)
 
-write_to_excel(excel_matrix,0,0,worksheet1,workbook)
+
+write_to_excel(excel_matrix,0,1,worksheet1,workbook)
+worksheet1.write('F1',formula1,money_format)
+worksheet1.write('O1',formula2,money_format)
+worksheet1.write('S1',formula3,money_format)
+
+worksheet1.write('X2','Movement',plain_format)
+worksheet1.write('Y2','Count',plain_format)
+worksheet1.write('Z2','Value',plain_format)
+worksheet1.write('X3','New Opportunities',plain_format)
+worksheet1.write('Y3','=COUNTIF(I:I,"=New Opportunity")',plain_format)
+worksheet1.write('Z3','=SUMIF(I:I,"=New Opportunity",S:S)',money_format)
+worksheet1.write('X4','Existing Opportunity',plain_format)
+worksheet1.write('Y4','=COUNTIF(I:I,"=Existing Opportunity")',plain_format)
+worksheet1.write('Z4','=SUMIF(I:I,"=Existing Opportunity",S:S)',money_format)
+worksheet1.write('X5','Removed From Pipeline',plain_format)
+worksheet1.write('Y5','=COUNTIF(I:I,"=Removed From Pipeline")',plain_format)
+worksheet1.write('Z5','=SUMIF(I:I,"=Removed From Pipeline",S:S)',money_format)
+
+worksheet1.write('X6','Hold',plain_format)
+worksheet1.write('Y6','=COUNTIF(N:N,"=Hold")',plain_format)
+worksheet1.write('Z6','=SUMIF(N:N,"=Hold",S:S)',money_format)
+worksheet1.write('X7','Closed Lost',plain_format)
+worksheet1.write('Y7','=COUNTIF(N:N,"=Closed Lost")',plain_format)
+worksheet1.write('Z7','=SUMIF(N:N,"=Closed Lost",S:S)',money_format)
+worksheet1.write('X8','Won',plain_format)
+worksheet1.write('Y8','=COUNTIF(N:N,"=Won")',plain_format)
+worksheet1.write('Z8','=SUMIF(N:N,"=Won",S:S)',money_format)
+worksheet1.write('X9','Other',plain_format)
+worksheet1.write('Y9','=COUNTIFS(I:I,"=Removed from Pipeline",N:N,"<>Won",N:N,"<>Closed Lost",N:N,"<>Hold")',plain_format)
+worksheet1.write('Z9','=SUMIFS(S:S,I:I,"=Removed from Pipeline",N:N,"<>Won",N:N,"<>Closed Lost",N:N,"<>Hold")',money_format)
+
+worksheet1.write('X12','Stage Movement',plain_format)
+worksheet1.write('Y12','Count',plain_format)
+worksheet1.write('Z12','SUM',plain_format)
+worksheet1.write('X13','Qualify',plain_format)
+worksheet1.write('Y13','=COUNTIFS(N:N,"=Qualify",E:E,"<>Qualify")',plain_format)
+worksheet1.write('Z13','SUM',plain_format)
 
 
-#Lead Component of Comparison
 
 
-#import leads
-#write leads matrix to new spreadsheet
-#create new spreadsheet
 
-worksheet2 = workbook.add_worksheet('LeadExtract')
-lead_matrix = import_object2(leadextract)
 
-write_to_excel(lead_matrix,0,0,worksheet2,workbook)
-        
 
 workbook.close()
-
-
-
-#copy both snapshots into new spreadsheet on individual tabs 
-
-
-
-
-
-
-
-
-
-
 
 
 
