@@ -269,7 +269,7 @@ worksheet1.write('S1',formula3,money_format)
 worksheet1.write('X2','Movement',plain_format)
 worksheet1.write('Y2','Count',plain_format)
 worksheet1.write('Z2','Value',plain_format)
-worksheet1.write('X3','New Opportunities',plain_format)
+worksheet1.write('X3','New Opportunity',plain_format)
 worksheet1.write('Y3','=COUNTIF(I:I,"=New Opportunity")',plain_format)
 worksheet1.write('Z3','=SUMIF(I:I,"=New Opportunity",S:S)',money_format)
 worksheet1.write('X4','Existing Opportunity',plain_format)
@@ -292,15 +292,89 @@ worksheet1.write('X9','Other',plain_format)
 worksheet1.write('Y9','=COUNTIFS(I:I,"=Removed from Pipeline",N:N,"<>Won",N:N,"<>Closed Lost",N:N,"<>Hold")',plain_format)
 worksheet1.write('Z9','=SUMIFS(S:S,I:I,"=Removed from Pipeline",N:N,"<>Won",N:N,"<>Closed Lost",N:N,"<>Hold")',money_format)
 
-worksheet1.write('X12','Stage Movement',plain_format)
-worksheet1.write('Y12','Count',plain_format)
-worksheet1.write('Z12','SUM',plain_format)
-worksheet1.write('X13','Qualify',plain_format)
-worksheet1.write('Y13','=COUNTIFS(N:N,"=Qualify",E:E,"<>Qualify")',plain_format)
-worksheet1.write('Z13','SUM',plain_format)
+worksheet1.write('X11','Pipeline Movement Summary',plain_format)
+worksheet1.write('X12','Stage',plain_format)
+worksheet1.write('X13','Previous Pipeline (Count)',plain_format)
+worksheet1.write('X14','Previous Pipeline (Value)',plain_format)
 
+worksheet1.write('X16','Entering Stage (Count)',plain_format)
+worksheet1.write('X17','Entering Stage (Value)',plain_format)
+worksheet1.write('X18','Exiting Stage (Count)',plain_format)
+worksheet1.write('X19','Exiting Stage (Value)',plain_format)
+worksheet1.write('X20','Value Changes (No Stage Movement)',plain_format)
 
+worksheet1.write('X22','Current Pipeline (Count)',plain_format)
+worksheet1.write('X23','Current Pipeline (Value)',plain_format)
 
+######Qualify
+worksheet1.write('Y12','Qualify',plain_format)
+worksheet1.write('Y13','=COUNTIF($E:$E,Y$12)',plain_format)
+worksheet1.write('Y14','=SUMIF($E:$E,Y$12,$F:$F)',money_format)
+
+worksheet1.write('Y16','=COUNTIFS($N:$N,Y$12,$E:$E,"<>"&Y$12)',plain_format)
+worksheet1.write('Y17','=SUMIFS($F:$F,$N:$N,Y$12,$E:$E,"<>"&Y$12)+SUMIFS($O:$O,$N:$N,Y$12,$E:$E,"<>"&Y$12,$I:$I,$X$3)+SUMIFS($S:$S,$N:$N,Y$12,$E:$E,"<>"&Y$12,$I:$I,$X$4)',money_format)
+worksheet1.write('Y18','=-COUNTIFS($E:$E,Y$12,$N:$N,"<>" & Y$12)',plain_format)
+worksheet1.write('Y19','=-SUMIFS($F:$F,$E:$E,Y$12,$N:$N,"<>"&Y$12)',money_format)
+worksheet1.write('Y20','=SUMIFS($S:$S,$N:$N,Y$12,$E:$E,Y$12,$I:$I,$X$4)',money_format)
+
+worksheet1.write('Y22','=COUNTIF($N:$N,Y$12)',plain_format)
+worksheet1.write('Y23','=SUMIF($N:$N,Y$12,$O:$O)',money_format)
+
+###### Validate/ Propose
+worksheet1.write('Z12','Validate/ Propose',plain_format)
+worksheet1.write('Z13','=COUNTIF($E:$E,Z$12)',plain_format)
+worksheet1.write('Z14','=SUMIF($E:$E,Z$12,$F:$F)',money_format)
+
+worksheet1.write('Z16','=COUNTIFS($N:$N,Z$12,$E:$E,"<>" & Z$12)',plain_format)
+worksheet1.write('Z17','=SUMIFS($F:$F,$N:$N,Z$12,$E:$E,"<>"&Z$12)+SUMIFS($O:$O,$N:$N,Z$12,$E:$E,"<>"&Z$12,$I:$I,$X$3)+SUMIFS($S:$S,$N:$N,Z$12,$E:$E,"<>"&Z$12,$I:$I,$X$4)',money_format)
+worksheet1.write('Z18','=-COUNTIFS($E:$E,Z$12,$N:$N,"<>" & Z$12)',plain_format)
+worksheet1.write('Z19','=-SUMIFS($F:$F,$E:$E,Z$12,$N:$N,"<>"&Z$12)',money_format)
+worksheet1.write('Z20','=SUMIFS($S:$S,$N:$N,Z$12,$E:$E,Z$12,$I:$I,$X$4)',money_format)
+
+worksheet1.write('Z22','=COUNTIF($N:$N,Z$12)',plain_format)
+worksheet1.write('Z23','=SUMIF($N:$N,Z$12,$O:$O)',money_format)
+
+###### Paid Feasibility
+worksheet1.write('AA12','Paid Feasibility',plain_format)
+worksheet1.write('AA13','=COUNTIF($E:$E,AA$12)',plain_format)
+worksheet1.write('AA14','=SUMIF($E:$E,AA$12,$F:$F)',money_format)
+
+worksheet1.write('AA16','=COUNTIFS($N:$N,AA$12,$E:$E,"<>" & AA$12)',plain_format)
+worksheet1.write('AA17','=SUMIFS($F:$F,$N:$N,AA$12,$E:$E,"<>"&AA$12)+SUMIFS($O:$O,$N:$N,AA$12,$E:$E,"<>"&AA$12,$I:$I,$X$3)+SUMIFS($S:$S,$N:$N,AA$12,$E:$E,"<>"&AA$12,$I:$I,$X$4)',money_format)
+worksheet1.write('AA18','=-COUNTIFS($E:$E,AA$12,$N:$N,"<>" & AA$12)',plain_format)
+worksheet1.write('AA19','=-SUMIFS($F:$F,$E:$E,AA$12,$N:$N,"<>"&AA$12)',money_format)
+worksheet1.write('AA20','=SUMIFS($S:$S,$N:$N,AA$12,$E:$E,AA$12,$I:$I,$X$4)',money_format)
+
+worksheet1.write('AA22','=COUNTIF($N:$N,AA$12)',plain_format)
+worksheet1.write('AA23','=SUMIF($N:$N,AA$12,$O:$O)',money_format)
+
+###### Decide
+worksheet1.write('AB12','Decide',plain_format)
+worksheet1.write('AB13','=COUNTIF($E:$E,AB$12)',plain_format)
+worksheet1.write('AB14','=SUMIF($E:$E,AB$12,$F:$F)',money_format)
+
+worksheet1.write('AB16','=COUNTIFS($N:$N,AB$12,$E:$E,"<>" & AB$12)',plain_format)
+worksheet1.write('AB17','=SUMIFS($F:$F,$N:$N,AB$12,$E:$E,"<>"&AB$12)+SUMIFS($O:$O,$N:$N,AB$12,$E:$E,"<>"&AB$12,$I:$I,$X$3)+SUMIFS($S:$S,$N:$N,AB$12,$E:$E,"<>"&AB$12,$I:$I,$X$4)',money_format)
+worksheet1.write('AB18','=-COUNTIFS($E:$E,AB$12,$N:$N,"<>" & AB$12)',plain_format)
+worksheet1.write('AB19','=-SUMIFS($F:$F,$E:$E,AB$12,$N:$N,"<>"&AB$12)',money_format)
+worksheet1.write('AB20','=SUMIFS($S:$S,$N:$N,AB$12,$E:$E,AB$12,$I:$I,$X$4)',money_format)
+
+worksheet1.write('AB22','=COUNTIF($N:$N,AB$12)',plain_format)
+worksheet1.write('AB23','=SUMIF($N:$N,AB$12,$O:$O)',money_format)
+
+##### Total
+worksheet1.write('AC12','Total',plain_format)
+worksheet1.write('AC13','=SUM(Y13:AB13)',plain_format)
+worksheet1.write('AC14','=SUM(Y14:AB14)',money_format)
+
+worksheet1.write('AC16','=SUM(Y16:AB16)',plain_format)
+worksheet1.write('AC17','=SUM(Y17:AB17)',money_format)
+worksheet1.write('AC18','=SUM(Y18:AB18)',plain_format)
+worksheet1.write('AC19','=SUM(Y19:AB19)',money_format)
+worksheet1.write('AC20','=SUM(Y20:AB20)',money_format)
+
+worksheet1.write('AC22','=SUM(Y22:AB22)',plain_format)
+worksheet1.write('AC23','=SUM(Y23:AB23)',money_format)
 
 
 
